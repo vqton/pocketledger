@@ -1,23 +1,25 @@
 import 'package:flutter/material.dart';
+import 'features\\onboarding\\onboarding_screen.dart';
+import 'features\\auth\\login_screen.dart';
 
-void main() => runApp(const MyApp());
+void main() {
+  runApp(MyApp());
+}
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
-
   @override
   Widget build(BuildContext context) {
-    const String appTitle = 'Flutter layout demo';
     return MaterialApp(
-      title: appTitle,
-      home: Scaffold(
-        appBar: AppBar(
-          title: const Text(appTitle),
-        ),
-        body: const Center(
-          child: Text('Hello World'),
-        ),
+      title: 'Your App Name',
+      theme: ThemeData(
+        primarySwatch: Colors.blue,
       ),
+      initialRoute: '/',
+      routes: {
+        '/': (context) => OnboardingScreen(),
+        '/login': (context) => LoginScreen(),
+        //   '/home': (context) => HomeScreen(),
+      },
     );
   }
 }
