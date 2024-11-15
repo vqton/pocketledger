@@ -1,45 +1,24 @@
+// Login screen file
 import 'package:flutter/material.dart';
-import 'package:pockerledger/features/home/home_screen.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:local_auth/local_auth.dart';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-
-void main() {
-  runApp(MyApp());
-}
-
-class MyApp extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Login Screen',
-      theme: ThemeData(primarySwatch: Colors.blue),
-      home: LoginScreen(),
-      supportedLocales: [Locale('en'), Locale('es')],
-      localizationsDelegates: [
-        GlobalMaterialLocalizations.delegate,
-        GlobalWidgetsLocalizations.delegate,
-      ],
-    );
-  }
-}
+import 'package:pocketledger/features/home/home_screen.dart';
 
 class LoginScreen extends StatefulWidget {
+  final GoogleSignIn googleSignIn;
+
+  LoginScreen({required this.googleSignIn});
+
   @override
   _LoginScreenState createState() => _LoginScreenState();
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  final GoogleSignIn _googleSignIn = GoogleSignIn();
-  final LocalAuthentication _localAuth = LocalAuthentication();
+  final _formKey = GlobalKey<FormState>();
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
-  final _formKey = GlobalKey<FormState>();
-  final _storage = FlutterSecureStorage();
-
   bool _isLoading = false;
   bool _obscurePassword = true;
+  final GoogleSignIn _googleSignIn = GoogleSignIn();
 
   void _togglePasswordVisibility() {
     setState(() {
@@ -47,15 +26,43 @@ class _LoginScreenState extends State<LoginScreen> {
     });
   }
 
-  Future<void> _loginWithGoogle() async {
-    setState(() {
-      _isLoading = true;
-    });
+  void _login() {
+    if (_formKey.currentState!.validate()) {
+      setState(() {
+        _isLoading = true;
+      });
+      // Implement your login logic here
+      // After login logic
+      setState(() {
+        _isLoading = false;
+      });
+    }
+  }
+
+  // void _loginWithGoogle() async {
+  //   try {
+  //     final GoogleSignInAccount? googleUser = await _googleSignIn.signIn();
+  //     if (googleUser != null) {
+  //       final GoogleSignInAuthentication googleAuth =
+  //           await googleUser.authentication;
+  //       // Use googleAuth.accessToken and googleAuth.idToken for your login logic
+  //       // Implement your login logic here
+  //       //MOVE TO DASHBOARD
+  //       Navigator.push(
+  //           context, MaterialPageRoute(builder: (context) => HomeScreen()));
+  //     }
+  //   } catch (error) {
+  //     print("Google Sign-In Error: $error"); // Handle error appropriately
+  //   }
+  // }
+  void _loginWithGoogle() async {
     try {
-      final googleUser = await _googleSignIn.signIn();
+      final GoogleSignInAccount? googleUser = await _googleSignIn.signIn();
       if (googleUser != null) {
-        // Pass Google user info to HomeScreen
-        Navigator.pushReplacement(
+        final GoogleSignInAuthentication googleAuth =
+            await googleUser.authentication;
+        // Navigate to HomeScreen with the googleUser parameter
+        Navigator.push(
           context,
           MaterialPageRoute(
             builder: (context) => HomeScreen(user: googleUser),
@@ -63,44 +70,12 @@ class _LoginScreenState extends State<LoginScreen> {
         );
       }
     } catch (error) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text("Error during Google Sign-In: $error")),
-      );
-    } finally {
-      setState(() {
-        _isLoading = false;
-      });
+      print("Google Sign-In Error: $error"); // Handle error appropriately
     }
   }
 
-  Future<void> _loginWithBiometrics() async {
-    try {
-      bool isAuthenticated = await _localAuth.authenticate(
-        localizedReason: 'Please authenticate to login',
-      );
-      if (isAuthenticated) {
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(builder: (context) => HomeScreen(user: null)),
-        );
-      }
-    } catch (error) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text("Biometric Authentication failed: $error")),
-      );
-    }
-  }
-
-  void _validateAndLogin() {
-    if (_formKey.currentState!.validate()) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text("Login Successful!")),
-      );
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(builder: (context) => HomeScreen(user: null)),
-      );
-    }
+  void _loginWithFacebook() {
+    // Implement Facebook login logic here
   }
 
   @override
@@ -108,18 +83,6 @@ class _LoginScreenState extends State<LoginScreen> {
     return Scaffold(
       appBar: AppBar(
         title: Text('Login'),
-        actions: [
-          DropdownButton(
-            icon: Icon(Icons.language, color: Colors.white),
-            items: [
-              DropdownMenuItem(child: Text("English"), value: 'en'),
-              DropdownMenuItem(child: Text("Español"), value: 'es'),
-            ],
-            onChanged: (value) {
-              // Implement language change logic here
-            },
-          ),
-        ],
       ),
       body: _isLoading
           ? Center(child: CircularProgressIndicator())
@@ -163,28 +126,31 @@ class _LoginScreenState extends State<LoginScreen> {
                     ),
                     SizedBox(height: 20),
                     ElevatedButton(
-                      onPressed: _validateAndLogin,
+                      onPressed: _login,
                       child: Text('Login'),
                     ),
+                    SizedBox(height: 10),
                     ElevatedButton.icon(
                       onPressed: _loginWithGoogle,
                       icon: Icon(Icons.login),
                       label: Text('Login with Google'),
                     ),
+                    SizedBox(height: 10),
                     ElevatedButton.icon(
-                      onPressed: _loginWithBiometrics,
-                      icon: Icon(Icons.fingerprint),
-                      label: Text('Login with Biometrics'),
+                      onPressed: _loginWithFacebook,
+                      icon: Icon(Icons.login),
+                      label: Text('Login with Facebook'),
                     ),
+                    SizedBox(height: 20),
                     TextButton(
                       onPressed: () {
-                        // Forgot Password logic
+                        // Implement forgot password logic here
                       },
                       child: Text('Forgot Password?'),
                     ),
                     TextButton(
                       onPressed: () {
-                        // Sign Up logic
+                        // Implement sign up logic here
                       },
                       child: Text('Sign Up'),
                     ),

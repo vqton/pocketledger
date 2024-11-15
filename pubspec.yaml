@@ -1,5 +1,5 @@
-name: pockerledger
-description: "A new Flutter project."
+name: pocketledger
+description: "### Personal Finance App - Your Financial Companion.Take control of your finances with our Personal Finance App! Designed to simplify your financial life, our app offers a comprehensive suite of features to help you manage your money effortlessly. Track your spending, set budgets, monitor your savings goals, and get insightful reports—all in one place. With intuitive navigation and real-time updates, staying on top of your finances has never been easier. Start your journey to financial freedom today! 💰📊Download now and transform the way you handle your money!"
 publish_to: 'none'
 version: 0.1.0
 
@@ -31,3 +31,4 @@ flutter:
     - assets/images/achieve_goals.svg
     - assets/images/set_budget.svg
     - assets/images/track_expenses.svg
+    - assets/images/profile.png

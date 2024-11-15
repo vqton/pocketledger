@@ -1,5 +1,6 @@
-// Onboarding screen file 
+// Onboarding screen file
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 
 class OnboardingScreen extends StatefulWidget {
   @override
@@ -13,7 +14,8 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
   final List<Map<String, String>> onboardingData = [
     {
       "title": "Track Expenses",
-      "description": "Easily record your expenses and stay on top of your spending.",
+      "description":
+          "Easily record your expenses and stay on top of your spending.",
       "image": "assets/images/track_expenses.svg",
     },
     {
@@ -130,8 +132,9 @@ class OnboardingContent extends StatelessWidget {
       children: [
         SizedBox(
           height: 250,
-          child: Image.asset(
-            image, // Use `SvgPicture.asset(image)` if using SVG images
+          child: SvgPicture.asset(
+            image,
+            height: 250,
           ),
         ),
         const SizedBox(height: 20),
@@ -159,4 +162,3 @@ class OnboardingContent extends StatelessWidget {
     );
   }
 }
-
