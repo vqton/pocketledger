@@ -40,6 +40,7 @@ class _HomeScreenState extends State<HomeScreen> {
         break;
       case 1:
         // Navigate to Accounts screen
+        Navigator.pushNamed(context, '/accounts');
         break;
       case 2:
         // Navigate to Transactions screen
@@ -60,7 +61,7 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Personal Finance'),
+        title: Text('Pocket Ledger'),
         actions: [
           IconButton(
             icon: Icon(Icons.notifications),

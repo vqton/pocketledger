@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:pocketledger/features/accounts/accounts_screen.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:pocketledger/features/budgets/budgets_screen.dart';
 import 'features/onboarding/onboarding_screen.dart';
@@ -34,7 +35,7 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Your App Name',
+      title: 'Pocket Ledger',
       theme: appTheme,
       home: _currentUser == null
           ? OnboardingScreen()
@@ -45,6 +46,7 @@ class _MyAppState extends State<MyApp> {
         '/settings': (context) => SettingsScreen(),
         '/goals': (context) => GoalsScreen(), // Add the goals route
         '/budgets': (context) => BudgetScreen(), // Add the budgets route
+        '/accounts': (context) => AccountsScreen(),
       },
     );
   }
