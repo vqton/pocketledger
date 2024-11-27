@@ -8,8 +8,16 @@ class RegisterViewModel extends ChangeNotifier {
   final AuthService _authService = AuthService();
   final AnalyticsService _analyticsService = AnalyticsService();
   bool _isLoading = false;
+  
+  bool _agreeToTerms=false;
+  bool get agreeToTerms => _agreeToTerms;
   bool get isLoading => _isLoading;
 
+
+  void setAgreeToTerms(bool value) {
+    _agreeToTerms = value;
+    notifyListeners();
+  }
   Future<UserModel?> register(String name, String email, String password) async {
     _isLoading = true;
     notifyListeners();
