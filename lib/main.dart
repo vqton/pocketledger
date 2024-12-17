@@ -6,7 +6,7 @@ import 'views/register_view.dart' as register;
 import 'views/profile_view.dart';
 import 'views/change_password_view.dart';
 import 'views/forgot_password_view.dart';
-
+import 'themes.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
@@ -18,9 +18,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Flutter MVVM Authentication',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
+      theme: appTheme,
       initialRoute: '/login',
       routes: {
         '/login': (context) => login.LoginView(),

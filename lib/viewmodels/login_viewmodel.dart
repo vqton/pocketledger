@@ -12,6 +12,13 @@ class LoginViewModel extends ChangeNotifier {
   final AnalyticsService _analyticsService = AnalyticsService();
   bool _isLoading = false;
   bool get isLoading => _isLoading;
+  bool _obscurePassword = true;
+  bool get obscurePassword => _obscurePassword;
+
+  void togglePasswordVisibility() {
+    _obscurePassword = !_obscurePassword;
+    notifyListeners();
+  }
 
   Future<bool> canCheckBiometrics() async {
     return await _authService.canCheckBiometrics();
